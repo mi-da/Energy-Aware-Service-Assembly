@@ -1,0 +1,171 @@
+##
+## Configuration file
+##
+
+simulation.cycles 600*3
+simulation.experiments 10
+NETWORK_SIZE 500
+
+TYPES 10
+
+DEGREE 6
+
+STRATEGY fair_energy  # 4 strategies: 1) emergent, 2) random, 3) greedy, 4) shaerf, 5) individual_energy, 5) overall_energy, 6) fair_energy
+
+M 5 # period of the learner
+
+COMPOSITION_STEPS 6 # the system runs a composition step every 6 simulation cycles
+
+random.seed 1234654328
+
+simulation.logtime 1000
+
+##### Network parameters
+network.size NETWORK_SIZE
+network.node lnu.mida.entity.GeneralNode
+
+#### Link Layer ####
+protocol.lnk example.newscast.SimpleNewscast
+protocol.lnk.cache 18
+protocol.lnk.step 2
+
+#protocol.lnk peersim.core.IdleProtocol
+
+##### Location implementation (for Vivaldi) ##### 
+network.node.loc_impl CircleLocation
+network.node.loc_impl.radius 100  # nodes are positioned in a radius of 100 meters
+
+##### Coordinate protocols - LEVEL 0 ######
+protocol.vivp VivaldiProtocol
+protocol.vivp.linkable lnk
+protocol.vivp.coord_impl Dim2DVivaldiCoordinate
+protocol.vivp.correction_factor 0.5
+protocol.vivp.uncertainty_factor 0.5
+
+#### Assembly Layer - LEVEL 1 ####
+protocol.ca lnu.mida.protocol.OverloadComponentAssembly
+protocol.ca.linkable lnk
+protocol.ca.appl_prot appl
+protocol.ca.types TYPES
+
+#### Application Layer - LEVEL 2 ####
+protocol.appl lnu.mida.protocol.OverloadApplication
+protocol.appl.linkable lnk
+protocol.appl.comp_prot ca
+
+##
+## Initializers
+##
+
+##### Wiring protocol ######
+#init.wire WireScaleFreeBA
+#init.wire.protocol lnk
+#init.wire.k DEGREE
+#init.wire.undir true
+
+init.wire peersim.dynamics.WireKOut
+init.wire.protocol lnk
+init.wire.k DEGREE
+
+## Location initializer
+init.loci LocationInitializer
+
+## Vivaldi Stabilizer
+init.vivs VivaldiStabilizer
+init.vivs.protocol vivp
+
+## Component initializer
+init.ci lnu.mida.controller.init.OverloadComponentInitializer
+init.ci.appl_prot appl
+init.ci.comp_prot ca
+init.ci.types TYPES
+
+## Dependency initializer
+init.pdi lnu.mida.controller.init.ProbDependencyInitializer
+init.pdi.comp_prot ca
+init.pdi.prob 0.6
+
+## File initializer
+init.fi lnu.mida.controller.init.OverloadFileInitializer
+
+##
+## Observers
+##
+control.qeC lnu.mida.controller.observer.QualityEnergyObserver
+control.qeC.protocol ca
+control.qeC.from COMPOSITION_STEPS
+control.qeC.step COMPOSITION_STEPS
+
+control.FinalutilC lnu.mida.controller.observer.FinalUtilityObserver
+control.FinalutilC.protocol ca
+control.FinalutilC.at simulation.cycles-1
+
+##
+## Controllers
+##
+
+# Composition controller
+control.compctr lnu.mida.controller.OverloadCompositionController
+control.compctr.appl_prot appl
+control.compctr.comp_prot ca
+control.compctr.from COMPOSITION_STEPS
+control.compctr.step COMPOSITION_STEPS
+
+control.reset lnu.mida.controller.OverloadReset
+control.reset.appl_prot appl
+control.reset.comp_prot ca
+control.reset.from COMPOSITION_STEPS
+control.reset.step COMPOSITION_STEPS
+
+# Energy consumption controller
+control.enectr lnu.mida.controller.energy.EnergyController
+control.enectr.appl_prot appl
+control.enectr.comp_prot ca
+control.enectr.viv_prot vivp
+control.enectr.from COMPOSITION_STEPS
+control.enectr.step COMPOSITION_STEPS
+
+# Id control reset 
+control.idctr lnu.mida.controller.OverloadIdController
+control.idctr.at simulation.cycles-1
+
+# Dynamic node change L
+control.changel lnu.mida.controller.OverloadComponentChangeL
+control.changel.appl_prot appl
+control.changel.comp_prot ca
+control.changel.num 100
+control.changel.from COMPOSITION_STEPS*10
+control.changel.step COMPOSITION_STEPS*10
+
+# Dynamic node fail
+control.failures lnu.mida.controller.OverloadComponentFailures
+control.failures.appl_prot appl
+control.failures.comp_prot ca
+control.failures.num 100
+control.failures.from COMPOSITION_STEPS*10
+control.failures.step COMPOSITION_STEPS*10
+
+# Dynamic node join
+control.dynpeer peersim.dynamics.DynamicNetwork
+control.dynpeer.add 100
+control.dynpeer.from COMPOSITION_STEPS*10
+control.dynpeer.step COMPOSITION_STEPS*10
+
+control.dynpeer.init.0 RandNI
+control.dynpeer.init.0.k DEGREE
+control.dynpeer.init.0.protocol lnk
+
+control.dynpeer.init.1 lnu.mida.controller.dynamic.OverloadNewNodeInitializer
+control.dynpeer.init.1.comp_prot ca
+
+# Vivaldi Observer
+control.vivo VivaldiObserver
+control.vivo.protocol vivp
+control.vivo.threshold 0.0
+
+# Shuffle
+control.shf Shuffle
+
+include.init wire loci vivs ci pdi fi
+include.control shf compctr enectr qeC FinalutilC reset idctr
+include.protocol lnk vivp ca appl
