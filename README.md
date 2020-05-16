@@ -1,4 +1,4 @@
-# Decentralized Learning for Self-Adaptive QoS-Aware and Energy-Aware Service Assembly
+# Decentralized Architecture for Energy-aware Service Assembly
 This repository contains the simulation code to replicate the results of the experimantation.
 
 ### Instructions
