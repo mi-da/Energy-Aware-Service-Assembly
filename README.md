@@ -2,7 +2,7 @@
 This repository contains the simulation code to replicate the results of the experimantation of the paper "Decentralized Architecture for Energy-aware Service Assembly" currently under revision at ECSA 2020.
 
 ### Instructions
-1. Download the Java Project "Decentralized-Learning-Service-Assembly" and import it in your IDE as a Java project
+1. Download the Java Project "Energy-Aware-Service-Assembly" and import it in your IDE as a Java project
 2. Link the provided libraries in "ext-lib" to the project
 3. Input the program argument "configs/mida-assembly-config.txt" (i.e., the configuration file of PeerSim)
 4. The main class to run the experiments is "peersim.Simulator"
