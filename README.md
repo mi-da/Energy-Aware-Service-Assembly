@@ -17,9 +17,9 @@ The file configs/mida-assembly-config.txt contains the configuration parameters 
   2. random 
   3. greedy (Greedy on QoS)
   4. shaerf (QoS-aware with learning - see [2])
-  5. individual_energy (Energy-aware greedy - paper under revision at ECSA2020)
-  6. overall_energy (Energy-aware greedy - paper under revision at ECSA2020)
-  7. fair_energy (Energy-aware with learning - paper under revision at ECSA2020)
+  5. individual_energy (Energy-aware Local - paper under revision at ECSA2020)
+  6. overall_energy (Energy-aware Overall - paper under revision at ECSA2020)
+  7. fair_energy (Energy-aware Learning - paper under revision at ECSA2020)
   
 ### References 
  
