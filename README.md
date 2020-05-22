@@ -1,5 +1,5 @@
 # Decentralized Architecture for Energy-aware Service Assembly
-This repository contains the simulation code to replicate the results of the experimantation.
+This repository contains the simulation code to replicate the results of the experimantation of the paper "Decentralized Architecture for Energy-aware Service Assembly" currently under revision at ECSA 2020.
 
 ### Instructions
 1. Download the Java Project "Decentralized-Learning-Service-Assembly" and import it in your IDE as a Java project
