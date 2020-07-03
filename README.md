@@ -1,5 +1,5 @@
 # Decentralized Architecture for Energy-aware Service Assembly
-This repository contains the simulation code to replicate the results of the experimantation of the paper "Decentralized Architecture for Energy-aware Service Assembly" currently under revision at ECSA 2020.
+This repository contains the simulation code to replicate the results of the experimantation of the paper "Decentralized Architecture for Energy-aware Service Assembly" accepted at ECSA 2020.
 
 ### Instructions
 1. Download the Java Project "Energy-Aware-Service-Assembly" and import it in your IDE as a Java project
@@ -17,9 +17,9 @@ The file configs/mida-assembly-config.txt contains the configuration parameters 
   2. random 
   3. greedy (Greedy on QoS)
   4. shaerf (QoS-aware with learning - see [2])
-  5. individual_energy (Energy-aware Local - paper under revision at ECSA2020)
-  6. overall_energy (Energy-aware Overall - paper under revision at ECSA2020)
-  7. fair_energy (Energy-aware Learning - paper under revision at ECSA2020)
+  5. individual_energy (Energy-aware Local - ECSA2020)
+  6. overall_energy (Energy-aware Overall - ECSA2020)
+  7. fair_energy (Energy-aware Learning - ECSA2020)
   
 ### References 
  
